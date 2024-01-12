@@ -1,10 +1,18 @@
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
+import { Inter } from "next/font/google";
+import Head from "next/head";
 
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+
+const inter = Inter({
+  variable: "--font-inter",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,7 +20,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <Head>
+        <title>Mello</title>
+        <meta name="description" content="Mello | Manage your projects" />
+        <link rel="icon" href="/logo.svg" />
+      </Head>
+      <div className={inter.className}>
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 };

@@ -25,9 +25,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta name="description" content="Mello | Manage your projects" />
         <link rel="icon" href="/logo.svg" />
       </Head>
-      <div className={inter.className}>
+      <main className={`${inter.variable} min-h-screen`}>
         <Component {...pageProps} />
-      </div>
+      </main>
     </SessionProvider>
   );
 };

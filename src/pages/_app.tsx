@@ -21,8 +21,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Head>
-        <title>Mello</title>
-        <meta name="description" content="Mello | Manage your projects" />
+        <title>TaskGenie</title>
+        <meta
+          name="description"
+          content="TaskGenie | Project Management and Colaboration Tool"
+        />
         <link rel="icon" href="/logo.svg" />
       </Head>
       <main className={`${inter.variable} min-h-screen`}>

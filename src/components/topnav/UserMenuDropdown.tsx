@@ -1,3 +1,4 @@
+import { signOut, useSession } from "next-auth/react";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -14,10 +15,9 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import Avatar from "../Avatar";
-import { signIn, signOut, useSession } from "next-auth/react";
 
 export function UserMenuDropdown() {
-  const { data, status } = useSession();
+  const { data } = useSession();
   const user = data?.user;
   const userImg = user?.image;
   const userName = user?.name;

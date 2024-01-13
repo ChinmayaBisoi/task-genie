@@ -5,15 +5,7 @@ import { UserMenuDropdown } from "./UserMenuDropdown";
 import Link from "next/link";
 
 const Topnav = () => {
-  const { data, status } = useSession();
-  const loading = status === "loading";
-  const user = data?.user;
-  const userImg = user?.image;
-  const userName = user?.name;
-  const userExists = user && userImg && userName;
-
-  const showLogin = !loading && !userExists;
-  const showUserMenu = !loading && userExists;
+  const { data } = useSession();
 
   return (
     <div className="sticky top-0 flex w-full bg-white shadow-lg">

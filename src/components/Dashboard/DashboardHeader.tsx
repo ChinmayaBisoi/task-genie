@@ -34,7 +34,7 @@ const DashboardHeader = () => {
             className={`${AVATAR_SIZE_CSS} rounded-lg text-2xl`}
           />
           <h1 className="text-xl font-medium capitalize text-brand-dark">
-            {userName}'s Dashboard
+            {userName}&apos;s Dashboard
           </h1>
         </>
       )}

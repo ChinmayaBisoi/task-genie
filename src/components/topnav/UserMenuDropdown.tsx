@@ -16,6 +16,14 @@ import {
 } from "~/components/ui/dropdown-menu";
 import Avatar from "../Avatar";
 
+async function handleLogout() {
+  try {
+    await signOut();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export function UserMenuDropdown() {
   const { data } = useSession();
   const user = data?.user;
@@ -80,12 +88,7 @@ export function UserMenuDropdown() {
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuItem disabled>API</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="cursor-pointer"
-          onClick={() => {
-            signOut();
-          }}
-        >
+        <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

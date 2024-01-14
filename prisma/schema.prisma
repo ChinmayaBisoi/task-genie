@@ -54,14 +54,17 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+    id               String          @id @default(cuid())
+    name             String?
+    email            String?         @unique
+    emailVerified    DateTime?
+    image            String?
+    isDeleted        Boolean         @default(false)
+    accounts         Account[]
+    sessions         Session[]
+    posts            Post[]
+    sentRequests     FriendRequest[] @relation("requestFrom")
+    receivedRequests FriendRequest[] @relation("requestTo")
 }
 
 model VerificationToken {
@@ -70,4 +73,17 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model FriendRequest {
+    id        String   @id @default(cuid())
+    from      User     @relation(name: "requestFrom", fields: [fromId], references: [id])
+    fromId    String
+    to        User     @relation(name: "requestTo", fields: [toId], references: [id])
+    toId      String
+    status    String   @default("pending") // can be 'pending', 'accepted', or 'rejected'
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([fromId, toId])
 }

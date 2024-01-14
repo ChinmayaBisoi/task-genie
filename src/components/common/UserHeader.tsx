@@ -1,11 +1,11 @@
 import React from "react";
 import Avatar from "../Avatar";
 import { useSession } from "next-auth/react";
-import Shimmer from "../common/Shimmer";
+import Shimmer from "./Shimmer";
 
 const AVATAR_SIZE_CSS = "h-16 w-16";
 
-const DashboardLoading = () => {
+const UserHeaderLoading = () => {
   return (
     <>
       <Shimmer className={`${AVATAR_SIZE_CSS} `} />
@@ -14,7 +14,7 @@ const DashboardLoading = () => {
   );
 };
 
-const DashboardHeader = () => {
+const UserHeader = ({ title = "Dashboard" }: { title?: String }) => {
   const { data, status } = useSession();
   const loading = status === "loading";
   const user = data?.user;
@@ -25,7 +25,7 @@ const DashboardHeader = () => {
   if (!loading && !userExists) return null;
   return (
     <div className="flex items-center gap-4 border-b border-neutral-200 py-4">
-      {loading && <DashboardLoading />}
+      {loading && <UserHeaderLoading />}
       {userExists && (
         <>
           <Avatar
@@ -34,7 +34,7 @@ const DashboardHeader = () => {
             className={`${AVATAR_SIZE_CSS} rounded-lg text-2xl`}
           />
           <h1 className="text-xl font-medium capitalize text-brand-dark">
-            {userName}&apos;s Dashboard
+            {userName}&apos;s {title}
           </h1>
         </>
       )}
@@ -42,4 +42,4 @@ const DashboardHeader = () => {
   );
 };
 
-export default DashboardHeader;
+export default UserHeader;

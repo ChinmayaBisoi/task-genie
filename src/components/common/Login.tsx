@@ -4,7 +4,9 @@ import { signIn, useSession } from "next-auth/react";
 
 async function handleGoogleLogin() {
   try {
-    await signIn("google");
+    await signIn("google", {
+      callbackUrl: `${window.location.origin}/dashboard`,
+    });
   } catch (e) {
     console.log(e);
   }

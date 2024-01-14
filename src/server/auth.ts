@@ -52,11 +52,6 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
-
-    redirect: ({ url, baseUrl }) => {
-      console.log(url, baseUrl);
-      return "/";
-    },
   },
 
   adapter: PrismaAdapter(db),

@@ -5,8 +5,8 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-import GoogleProvider from "next-auth/providers/google"
+// import DiscordProvider from "next-auth/providers/discord";
+import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
@@ -39,27 +39,41 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, user }) => {
+      console.log("+++++++++++++++++++++++++++++++++++");
+      console.log("session -> ", session);
+      console.log("+++++++++++++++++++++++++++++++++++");
+      console.log("user -> ", user);
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      };
+    },
+
+    redirect: ({ url, baseUrl }) => {
+      console.log(url, baseUrl);
+      return "/";
+    },
   },
+
   adapter: PrismaAdapter(db),
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
-    ...(env.DISCORD_CLIENT_ID && env.DISCORD_CLIENT_SECRET ? [   
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
-    })
-    ] : [] )
-   
+    // ...(env.DISCORD_CLIENT_ID && env.DISCORD_CLIENT_SECRET
+    //   ? [
+    //       DiscordProvider({
+    //         clientId: env.DISCORD_CLIENT_ID,
+    //         clientSecret: env.DISCORD_CLIENT_SECRET,
+    //       }),
+    //     ]
+    //   : []),
+
     /**
      * ...add more providers here.
      *
@@ -70,7 +84,7 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
- 
+
   // pages: {
   //   signIn: "/signin",
   // },

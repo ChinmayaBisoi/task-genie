@@ -50,7 +50,7 @@ export function UserMenuDropdown() {
         <DropdownMenuGroup>
           {NAV_ITEMS.map((item) => {
             return (
-              <Link href={item.link}>
+              <Link key={item.link} href={item.link}>
                 <DropdownMenuItem className={hoverStyles}>
                   {item.label}
                 </DropdownMenuItem>

@@ -9,6 +9,7 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import type { Page } from "~/types/page";
 import { Fragment } from "react";
+import { Toaster } from "~/components/ui/toaster";
 
 type Props = AppProps & {
   Component: Page;
@@ -36,6 +37,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }: Props) => {
       <main className={`${inter.variable} min-h-screen`}>
         <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
       </main>
+      <Toaster />
     </SessionProvider>
   );
 };

@@ -20,13 +20,9 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}: Props) => {
+const MyApp = ({ Component, pageProps: { session, ...pageProps } }: Props) => {
   const getLayout = Component.getLayout ?? ((page) => page);
   const Layout = Component.layout ?? Fragment;
-
   return (
     <SessionProvider session={session}>
       <Head>

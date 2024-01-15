@@ -7,7 +7,7 @@ const Layout = ({
   hideSidebar = false,
 }: {
   children: React.ReactNode;
-  hideSidebar?: Boolean;
+  hideSidebar?: boolean;
 }) => {
   return (
     <div className="flex flex-col">

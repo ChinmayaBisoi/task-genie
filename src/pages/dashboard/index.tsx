@@ -1,4 +1,5 @@
-import React, { ReactElement } from "react";
+import React from "react";
+import type { ReactElement } from "react";
 import Dashboard from "~/components/Dashboard/Dashboard";
 import Layout from "~/components/layout/Layout";
 

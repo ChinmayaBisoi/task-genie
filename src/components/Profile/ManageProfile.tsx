@@ -1,7 +1,9 @@
+import { Session } from "next-auth";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
-const ManageProfile = ({ user }: { user: any }) => {
+const ManageProfile = ({ user }: { user: Session["user"] }) => {
+  if (!user.name || !user.email) return null;
   return (
     <div>
       <h3 className="text-2xl font-semibold text-brand-dark">

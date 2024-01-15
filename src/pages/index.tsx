@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import Layout from "~/components/layout/Layout";
 
 import { api } from "~/utils/api";
@@ -58,6 +58,12 @@ function AuthShowcase() {
     undefined, // no input
     { enabled: sessionData?.user !== undefined },
   );
+  const { data } = api.member.getAll.useQuery(
+    undefined, // no input
+    { enabled: sessionData?.user !== undefined },
+  );
+
+  console.log(data);
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">

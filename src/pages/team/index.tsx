@@ -1,7 +1,8 @@
-import { GetServerSidePropsContext } from "next";
-import { Session } from "next-auth";
+import type { GetServerSidePropsContext } from "next";
+import type { Session } from "next-auth";
 import Image from "next/image";
-import React, { ReactElement } from "react";
+import React from "react";
+import type { ReactElement } from "react";
 import UserHeader from "~/components/common/UserHeader";
 import UserNotLoggedIn from "~/components/common/UserNotLoggedIn";
 import Layout from "~/components/layout/Layout";

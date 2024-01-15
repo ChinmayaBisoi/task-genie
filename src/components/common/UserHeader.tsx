@@ -14,7 +14,7 @@ const UserHeaderLoading = () => {
   );
 };
 
-const UserHeader = ({ title = "Dashboard" }: { title?: String }) => {
+const UserHeader = ({ title = "Dashboard" }: { title?: string }) => {
   const { data, status } = useSession();
   const loading = status === "loading";
   const user = data?.user;

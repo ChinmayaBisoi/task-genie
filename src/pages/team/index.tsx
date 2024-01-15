@@ -5,6 +5,7 @@ import React, { ReactElement } from "react";
 import UserHeader from "~/components/common/UserHeader";
 import UserNotLoggedIn from "~/components/common/UserNotLoggedIn";
 import Layout from "~/components/layout/Layout";
+import Team from "~/components/team/Team";
 import { getServerAuthSession } from "~/server/auth";
 
 const TeamsPage = ({ user }: { user: Session["user"] }) => {
@@ -22,15 +23,7 @@ const TeamsPage = ({ user }: { user: Session["user"] }) => {
             className="mx-auto h-auto w-full max-w-sm"
           />
           <div className="my-4">
-            {isLoggedIn ? (
-              <div>
-                <h4 className="border-b border-neutral-200 pb-2 text-lg font-medium text-brand-dark">
-                  Manage your colaborations
-                </h4>
-              </div>
-            ) : (
-              <UserNotLoggedIn />
-            )}
+            {isLoggedIn ? <Team /> : <UserNotLoggedIn />}
           </div>
         </div>
       </div>

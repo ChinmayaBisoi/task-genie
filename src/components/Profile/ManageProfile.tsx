@@ -1,4 +1,4 @@
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 

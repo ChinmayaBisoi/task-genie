@@ -1,6 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import Topnav from "~/components/topnav/Topnav";
+import { ReactElement } from "react";
+import Layout from "~/components/layout/Layout";
 
 import { api } from "~/utils/api";
 
@@ -10,7 +11,6 @@ export default function Home() {
   return (
     <>
       <div className="min-h-screen">
-        <Topnav />
         <div className="container flex h-[2000px] flex-col items-center justify-center gap-12 px-4 py-16 ">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
@@ -74,3 +74,7 @@ function AuthShowcase() {
     </div>
   );
 }
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <Layout hideSidebar>{page}</Layout>;
+};

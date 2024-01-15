@@ -1,14 +1,17 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Dashboard from "~/components/Dashboard/Dashboard";
-import Topnav from "~/components/topnav/Topnav";
+import Layout from "~/components/layout/Layout";
 
 const DashboardPage = () => {
   return (
     <div>
-      <Topnav />
       <Dashboard />
     </div>
   );
+};
+
+DashboardPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default DashboardPage;

@@ -1,29 +1,36 @@
 import { GetServerSidePropsContext } from "next";
 import { Session } from "next-auth";
 import Image from "next/image";
-import { ReactElement } from "react";
-import ManageProfile from "~/components/Profile/ManageProfile";
+import React, { ReactElement } from "react";
 import UserHeader from "~/components/common/UserHeader";
 import UserNotLoggedIn from "~/components/common/UserNotLoggedIn";
 import Layout from "~/components/layout/Layout";
 import { getServerAuthSession } from "~/server/auth";
 
-const ProfilePage = ({ user }: { user: Session["user"] }) => {
+const TeamsPage = ({ user }: { user: Session["user"] }) => {
   const isLoggedIn = Boolean(user);
   return (
     <div>
       <div className="p-4">
-        <UserHeader title={"profile"} />
+        <UserHeader title={"Colaborations"} />
         <div className="mx-auto my-4 md:my-8 md:max-w-3xl">
           <Image
-            src="/profile/profile.svg"
+            src="/team/colab.svg"
             alt="profile-page-image"
             width={531}
             height={108}
-            className="mx-auto h-auto w-full"
+            className="mx-auto h-auto w-full max-w-sm"
           />
           <div className="my-4">
-            {isLoggedIn ? <ManageProfile user={user} /> : <UserNotLoggedIn />}
+            {isLoggedIn ? (
+              <div>
+                <h4 className="border-b border-neutral-200 pb-2 text-lg font-medium text-brand-dark">
+                  Manage your colaborations
+                </h4>
+              </div>
+            ) : (
+              <UserNotLoggedIn />
+            )}
           </div>
         </div>
       </div>
@@ -31,9 +38,9 @@ const ProfilePage = ({ user }: { user: Session["user"] }) => {
   );
 };
 
-export default ProfilePage;
+export default TeamsPage;
 
-ProfilePage.getLayout = function getLayout(page: ReactElement) {
+TeamsPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

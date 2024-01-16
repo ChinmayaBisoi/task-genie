@@ -8,7 +8,7 @@ const Topnav = () => {
   const { data } = useSession();
 
   return (
-    <div className="sticky top-0 flex w-full bg-white shadow-lg">
+    <div className="sticky top-0 z-10 flex w-full bg-white shadow-lg">
       <Link
         href={data ? "/dashboard" : "/"}
         className="mx-4 my-2 flex cursor-pointer items-center gap-2"

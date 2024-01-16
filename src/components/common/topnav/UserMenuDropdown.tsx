@@ -16,7 +16,8 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { NAV_ITEMS } from "../sidebar/Sidebar";
 
-const hoverStyles = "focus:bg-brand-light focus:text-white cursor-pointer";
+const commonStyles =
+  "focus:bg-brand-light focus:text-white cursor-pointer rounded-full pl-4";
 
 async function handleLogout() {
   try {
@@ -40,7 +41,7 @@ export function UserMenuDropdown() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="relative m-0 mr-4 flex h-11 w-11 items-center justify-center rounded-full hover:bg-brand-light/60"
+          className="m-0 mr-4 flex h-11 w-11 items-center justify-center rounded-full hover:bg-brand-light/60"
         >
           <div className="absolute h-6 w-6 animate-ping rounded-full bg-brand-light" />
           <Avatar img={userImg} name={userName} />
@@ -51,7 +52,7 @@ export function UserMenuDropdown() {
           {NAV_ITEMS.map((item) => {
             return (
               <Link key={item.link} href={item.link}>
-                <DropdownMenuItem className={hoverStyles}>
+                <DropdownMenuItem className={commonStyles}>
                   {item.label}
                 </DropdownMenuItem>
               </Link>
@@ -61,19 +62,19 @@ export function UserMenuDropdown() {
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger
-              className={`${hoverStyles} data-[state=open]:bg-brand-light data-[state=open]:text-white`}
+              className={`${commonStyles} data-[state=open]:bg-brand-light data-[state=open]:text-white`}
             >
               Invite users
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuItem className={hoverStyles}>
+                <DropdownMenuItem className={commonStyles}>
                   Email
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
                 <Link href="/team">
-                  <DropdownMenuItem className={hoverStyles}>
+                  <DropdownMenuItem className={commonStyles}>
                     More...
                   </DropdownMenuItem>
                 </Link>
@@ -82,7 +83,10 @@ export function UserMenuDropdown() {
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+        <DropdownMenuItem
+          className="cursor-pointer rounded-full pl-4 focus:bg-brand-dark focus:text-white"
+          onClick={handleLogout}
+        >
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>

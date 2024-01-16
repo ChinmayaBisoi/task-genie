@@ -1,15 +1,14 @@
-import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import type { AppProps, AppType } from "next/app";
+import type { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 
 import { api } from "~/utils/api";
 
-import "~/styles/globals.css";
-import type { Page } from "~/types/page";
 import { Fragment } from "react";
 import { Toaster } from "~/components/ui/toaster";
+import "~/styles/globals.css";
+import type { Page } from "~/types/page";
 
 type Props = AppProps & {
   Component: Page;

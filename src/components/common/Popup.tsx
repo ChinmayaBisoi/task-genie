@@ -16,7 +16,7 @@ const Popup = ({
   return (
     <div className="fixed left-0 top-0  z-10 flex h-screen w-screen items-center justify-center bg-neutral-600/70 pb-20 backdrop-blur-sm">
       <div
-        className={`relative h-screen w-screen rounded-lg bg-white p-4 shadow-md md:h-auto md:max-h-[80vh] md:max-w-md ${className}`}
+        className={`relative w-screen rounded-lg bg-white p-4 shadow-md md:max-h-[80vh] md:max-w-md ${className}`}
       >
         <button
           className="absolute right-4 top-4 rounded-md p-1 hover:bg-neutral-100"

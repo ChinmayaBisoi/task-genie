@@ -24,7 +24,7 @@ const UserHeader = ({ title = "Dashboard" }: { title?: string }) => {
 
   if (!loading && !userExists) return null;
   return (
-    <div className="flex items-center gap-4 border-b border-neutral-200 py-4">
+    <div className="flex items-center gap-4 border-b border-brand-light/20 py-4">
       {loading && <UserHeaderLoading />}
       {userExists && (
         <>

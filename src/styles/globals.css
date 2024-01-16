@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    scroll-behavior: smooth;
     --font-sans: --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -64,6 +65,43 @@
     --input: 217.2 32.6% 17.5%;
     /* --ring: 212.7 26.8% 83.9%; */
   }
+}
+
+/* Three dots loader animation */
+.three-dots-loader {
+  width: 40px;
+  aspect-ratio: 4;
+  background: radial-gradient(circle closest-side, #000 90%, #0000) 0 /
+    calc(100% / 3) 100% space;
+  clip-path: inset(0 100% 0 0);
+  animation: three-dots-loader-animation 1s steps(4) infinite;
+}
+
+@keyframes three-dots-loader-animation {
+  to {
+    clip-path: inset(0 -34% 0 0);
+  }
+}
+
+/* For Custom Scrollbar  */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #999;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
 }
 
 @layer base {

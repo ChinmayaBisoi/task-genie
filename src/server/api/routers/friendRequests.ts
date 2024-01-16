@@ -1,91 +1,158 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-export async function addMember(email: string) {
-  try {
-    // Check if the user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-
-    if (existingUser) {
-      console.log("User already exists:", existingUser);
-      return existingUser;
-    }
-
-    // If the user doesn't exist, create a new user
-    const newUser = await prisma.user.create({
-      data: {
-        email,
-
-        // Add other user-related fields as needed
-      },
-    });
-
-    return newUser;
-  } catch (error) {
-    console.error("Error creating user:", error);
-    throw error;
-  }
-}
-
-export async function sendFriendRequest() {}
-
-export async function confirmFriendRequest() {} // accept or reject
-
-export async function removeFriend() {}
-
-export async function getAllFriends() {}
+import { TRPCError } from "@trpc/server";
 
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const friendRequestsRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
+  // (think of a better name)
+  getUnacceptedRequests: protectedProcedure.query(async ({ ctx }) => {
+    const requestor = ctx.session.user;
 
-  create: protectedProcedure
-    .input(z.object({ name: z.string().min(1) }))
+    const unacceptedRequests = await ctx.db.friendRequest.findMany({
+      where: {
+        NOT: {
+          status: "accepted",
+        },
+        OR: [
+          {
+            fromId: requestor.id,
+          },
+          { toId: requestor.id },
+        ],
+      },
+      include: {
+        from: true,
+        to: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+
+    return unacceptedRequests.map((item) => {
+      const isSentByUser = item.fromId === ctx.session.user.id;
+      return { ...item, isSentByUser };
+    });
+  }),
+
+  // fetch all users who are friends with requestor
+  getMembers: protectedProcedure.query(async ({ ctx }) => {
+    const requestor = ctx.session.user;
+
+    const members = await ctx.db.friendRequest.findMany({
+      where: {
+        status: "accepted",
+        OR: [
+          {
+            fromId: requestor.id,
+          },
+          { toId: requestor.id },
+        ],
+      },
+      include: {
+        from: true,
+        to: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+
+    return members.map((item) => ({
+      ...item,
+      isSentByUser: requestor.id === item.from.id,
+    }));
+  }),
+
+  sendFriendRequest: protectedProcedure
+    .input(z.object({ email: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const requestor = ctx.session.user;
+      const userToSendRequestTo = await ctx.db.user.findUnique({
+        where: { email: input.email },
+      });
 
-      return ctx.db.post.create({
+      if (requestor.email === input.email)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Cannot add yourself as a member!`,
+        });
+
+      if (!userToSendRequestTo)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `User with email = ${input.email} not found`,
+        });
+
+      const sharedPendingRequests = await ctx.db.friendRequest.findMany({
+        where: {
+          status: "pending",
+          OR: [
+            {
+              fromId: requestor.id,
+              toId: userToSendRequestTo.id,
+            },
+            {
+              fromId: userToSendRequestTo.id,
+              toId: requestor.id,
+            },
+          ],
+        },
+      });
+
+      if (sharedPendingRequests?.length > 0) {
+        const isRequestAlreadySent = sharedPendingRequests.find((request) => {
+          return request.fromId === requestor.id;
+        });
+
+        if (isRequestAlreadySent)
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: `Request already sent.`,
+          });
+
+        const hasAlreadyReceivedRequest = sharedPendingRequests.find(
+          (request) => {
+            return request.toId === requestor.id;
+          },
+        );
+
+        if (hasAlreadyReceivedRequest)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: `You already have a pending request from the user.`,
+          });
+      }
+
+      return await ctx.db.friendRequest.create({
         data: {
-          name: input.name,
-          createdBy: { connect: { id: ctx.session.user.id } },
+          fromId: ctx.session.user.id,
+          toId: userToSendRequestTo.id,
         },
       });
     }),
 
-  getLatest: protectedProcedure.query(({ ctx }) => {
-    return ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-      where: { createdBy: { id: ctx.session.user.id } },
-    });
-  }),
+  replyFriendRequest: protectedProcedure
+    .input(z.object({ requestId: z.string().cuid(), accept: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const userToSendRequestTo = await ctx.db.friendRequest.update({
+        where: { id: input.requestId, status: "pending" },
+        data: {
+          status: input.accept ? "accepted" : "rejected",
+        },
+      });
 
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
+      return userToSendRequestTo;
+    }),
 
-  getAll: protectedProcedure.query(({ ctx }) => {
-    console.log(ctx);
-    return ctx.db.friendRequest.findFirst({
-      orderBy: { createdAt: "desc" },
-      // where: { createdBy: { id: ctx.session.user.id } },
-    });
-  }),
+  removeMember: protectedProcedure
+    .input(z.object({ requestId: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      const deletedItem = await ctx.db.friendRequest.delete({
+        where: { id: input.requestId },
+      });
+
+      return deletedItem;
+    }),
 });

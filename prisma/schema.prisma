@@ -14,18 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -62,9 +50,11 @@ model User {
     isDeleted        Boolean         @default(false)
     accounts         Account[]
     sessions         Session[]
-    posts            Post[]
     sentRequests     FriendRequest[] @relation("requestFrom")
     receivedRequests FriendRequest[] @relation("requestTo")
+    projects         Project[]
+    ownProjects      Project[]       @relation("projectCreatedBy")
+    tasks            Task[]
 }
 
 model VerificationToken {
@@ -87,3 +77,35 @@ model FriendRequest {
 
     @@unique([fromId, toId])
 }
+
+model Project {
+    id          String   @id @default(cuid())
+    title       String
+    description String?  @default("")
+    createdBy   User     @relation("projectCreatedBy", fields: [createdById], references: [id])
+    createdById String
+    members     User[]
+    tasks       Task[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    @@unique([id])
+}
+
+// // Define the Task model
+model Task {
+    id          String   @id @default(cuid())
+    deadline    DateTime
+    title       String
+    description String?  @default("")
+    assignedTo  User[]
+    isPriority  Boolean  @default(false)
+    status      String   @default("NOT_STARTED") // 
+
+    Project   Project @relation(fields: [projectId], references: [id])
+    projectId String
+}
+
+// // Define the Tag model
+
+// // Define the Status enum

@@ -90,7 +90,7 @@ const MemberCard = ({ item }: { item: Member }) => {
               )}
             </div>
             <Button
-              className="self-end"
+              className="ml-auto"
               variant={"destructive"}
               onClick={handleRemoveMember}
             >

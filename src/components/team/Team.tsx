@@ -79,7 +79,10 @@ const Team = () => {
         {showMembers ? (
           <Members membersListQuery={membersListQuery} />
         ) : (
-          <Requests unacceptedRequestsQuery={unacceptedRequestsQuery} />
+          <Requests
+            unacceptedRequestsQuery={unacceptedRequestsQuery}
+            refetchMembers={refetchData}
+          />
         )}
       </div>
     </div>

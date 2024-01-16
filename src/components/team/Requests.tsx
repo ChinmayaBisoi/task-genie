@@ -129,8 +129,10 @@ type UnacceptedRequestsQueryProps = UseTRPCQueryResult<
 
 const Requests = ({
   unacceptedRequestsQuery,
+  refetchMembers = async () => {},
 }: {
   unacceptedRequestsQuery: UnacceptedRequestsQueryProps;
+  refetchMembers: () => Promise<void>;
 }) => {
   const {
     data: unacceptedRequests,
@@ -141,6 +143,7 @@ const Requests = ({
   } = unacceptedRequestsQuery;
 
   async function refetchData() {
+    await refetchMembers();
     await refetch();
   }
 

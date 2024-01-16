@@ -5,6 +5,9 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { toast } from "../ui/use-toast";
+import { TRPCClientError, TRPCClientErrorLike } from "@trpc/client";
+import { AppRouter } from "~/server/api/root";
+import { ErrorProp } from "~/types/common";
 
 function isValidEmail(email: string) {
   return (

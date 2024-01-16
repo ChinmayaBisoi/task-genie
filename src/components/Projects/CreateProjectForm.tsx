@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 type FormState = {
   title: string;
@@ -15,8 +15,7 @@ const defaultFormState: FormState = {
 };
 
 const CreateProjectForm = () => {
-  const [{ title, description, members }, setProject] =
-    useState(defaultFormState);
+  const [{ title, description }, setProject] = useState(defaultFormState);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setProject((prev) => ({ ...prev, [e.target.name]: e.target.value }));

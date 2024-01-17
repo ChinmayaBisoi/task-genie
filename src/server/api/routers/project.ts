@@ -122,4 +122,35 @@ export const projectRouter = createTRPCRouter({
 
       return projectDetails;
     }),
+
+  // get all projects user is involved in
+  getUserRelatedProjects: protectedProcedure.query(async ({ ctx }) => {
+    const requestor = ctx.session.user;
+
+    const projectDetails = await ctx.db.project.findMany({
+      where: {
+        members: {
+          some: {
+            id: requestor.id,
+          },
+        },
+      },
+      include: {
+        members: true,
+        tasks: true,
+        createdBy: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+
+    if (!projectDetails)
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: `Project details not found`,
+      });
+
+    return projectDetails;
+  }),
 });

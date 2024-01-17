@@ -33,9 +33,12 @@ const UserHeader = ({ title = "Dashboard" }: { title?: string }) => {
             name={userName}
             className={`${AVATAR_SIZE_CSS} rounded-lg text-2xl`}
           />
-          <h1 className="text-xl font-medium capitalize text-brand-dark">
-            {userName}&apos;s {title}
-          </h1>
+          <div className="text-brand-dark">
+            <h1 className="text-xl font-medium capitalize ">
+              {userName}&apos;s {title}
+            </h1>
+            <h2 className="text-xs">{user.email}</h2>
+          </div>
         </>
       )}
     </div>

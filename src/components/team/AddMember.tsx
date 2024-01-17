@@ -72,7 +72,7 @@ const AddMember = ({ refetchData }: { refetchData: () => void }) => {
             loading={addMemberMutation.isLoading}
             onClick={handleAddMember}
             disabled={email.length < 1 || addMemberMutation.isLoading}
-            className="self-end"
+            className="ml-auto"
           >
             Add Member
           </Button>

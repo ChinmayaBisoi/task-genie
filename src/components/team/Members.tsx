@@ -12,6 +12,7 @@ import { TRPCClientErrorLike } from "@trpc/client";
 import { AppRouter } from "~/server/api/root";
 import { UseTRPCQueryResult } from "@trpc/react-query/shared";
 import ErrorFetchingData from "../common/ErrorFetchingData";
+import UserCard from "./UserCard";
 
 type Member = RouterOutputs["member"]["getMembers"][number];
 
@@ -38,21 +39,7 @@ const MemberCard = ({ item }: { item: Member }) => {
   return (
     <div className="rounded-lg p-4 shadow-inner shadow-brand-light/70">
       <div className="flex flex-col justify-between gap-4 sm:flex-row">
-        <div className="flex items-center gap-4">
-          {otherUser && otherUser.image && otherUser.name && (
-            <div className="rounded-full shadow-lg shadow-brand-light/40">
-              <Avatar
-                img={otherUser.image}
-                name={otherUser.name}
-                className="sm:h-12 sm:w-12"
-              />
-            </div>
-          )}
-          <div>
-            <div>{otherUser.name}</div>
-            <div className="max-w-60 truncate text-sm">{otherUser.email}</div>
-          </div>
-        </div>
+        <UserCard user={otherUser} />
         <Button
           onClick={() => {
             setShow(true);
@@ -141,7 +128,7 @@ const Members = ({
           <div>Add a member above to send a request.</div>
         </div>
       )}
-      <div className="">
+      <div className="flex flex-col gap-4">
         {members?.map((item: MemberProps) => {
           return <MemberCard key={item.id} item={item} />;
         })}

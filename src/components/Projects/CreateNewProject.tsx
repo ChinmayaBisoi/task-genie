@@ -11,17 +11,16 @@ const CreateNewProject = () => {
         onClick={() => {
           setShow(true);
         }}
-        variant="secondary"
-        className="h-24 hover:bg-neutral-200"
+        className="rounded-full"
       >
-        Create new project
+        Create project
       </Button>
       <Popup
         show={show}
         onClose={() => {
           setShow(false);
         }}
-        className="rounded-none md:max-w-2xl md:rounded-lg"
+        className="mx-4 md:mx-0 md:max-w-2xl md:rounded-lg"
       >
         <CreateProjectForm />
       </Popup>

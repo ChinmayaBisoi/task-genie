@@ -12,20 +12,18 @@ import { getServerAuthSession } from "~/server/auth";
 const TeamsPage = ({ user }: { user: Session["user"] }) => {
   const isLoggedIn = Boolean(user);
   return (
-    <div>
-      <div className="p-4">
-        <UserHeader title={"Colaborations"} />
-        <div className="mx-auto my-4 md:my-8 md:max-w-3xl">
-          <Image
-            src="/team/colab.svg"
-            alt="profile-page-image"
-            width={531}
-            height={108}
-            className="mx-auto h-auto w-full max-w-sm"
-          />
-          <div className="my-4">
-            {isLoggedIn ? <Team /> : <UserNotLoggedIn />}
-          </div>
+    <div className="p-4">
+      <UserHeader title={"Colaborations"} />
+      <div className="mx-auto my-4 md:my-8 md:max-w-3xl">
+        <Image
+          src="/team/colab.svg"
+          alt="profile-page-image"
+          width={531}
+          height={108}
+          className="mx-auto h-auto w-full max-w-sm"
+        />
+        <div className="my-4">
+          {isLoggedIn ? <Team /> : <UserNotLoggedIn />}
         </div>
       </div>
     </div>

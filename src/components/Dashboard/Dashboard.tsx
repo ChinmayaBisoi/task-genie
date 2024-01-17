@@ -6,7 +6,7 @@ const Dashboard = () => {
   return (
     <div className="p-4">
       <UserHeader />
-      <div className="my-8">
+      <div className="my-4">
         <Projects />
       </div>
     </div>

@@ -5,13 +5,14 @@ import CreateNewProject from "./CreateNewProject";
 const Projects = () => {
   return (
     <div className="">
-      <div className="flex items-center gap-2">
-        <UserRound />
-        <h2 className="text-lg font-medium capitalize">Your Projects</h2>
-      </div>
-      <div className="my-4 flex flex-wrap">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <UserRound />
+          <h2 className="text-lg font-medium capitalize">Your Projects</h2>
+        </div>
         <CreateNewProject />
       </div>
+      <div className="my-4 flex flex-wrap"></div>
     </div>
   );
 };

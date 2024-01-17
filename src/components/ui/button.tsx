@@ -57,7 +57,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
     return (
-      <div className="relative flex items-center justify-center">
+      <div className="relative flex w-fit items-center justify-center">
         <Comp
           className={cn(
             buttonVariants({ variant, size, className }),

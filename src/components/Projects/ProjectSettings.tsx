@@ -1,18 +1,83 @@
+import { MinusCircle } from "lucide-react";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { RouterOutputs, api } from "~/utils/api";
+import Popup from "../common/Popup";
+import Shimmer from "../common/Shimmer";
+import UserCard from "../team/UserCard";
+import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { RouterOutputs, api } from "~/utils/api";
-import ProjectNotFound from "./ProjectNotFound";
-import { useEffect, useState } from "react";
-import Shimmer from "../common/Shimmer";
-import Avatar from "../Avatar";
-import UserCard from "../team/UserCard";
-import { MinusCircle, PlusCircle } from "lucide-react";
-import { Badge } from "../ui/badge";
 import { toast } from "../ui/use-toast";
+import ProjectNotFound from "./ProjectNotFound";
 
 type ProjectDetailsProps = RouterOutputs["project"]["getProjectDetails"];
+
+const DeleteProject = ({ projectId }: { projectId: string }) => {
+  const [showDeleteProjectPopup, setShowDeleteProjectPopup] = useState(false);
+  const router = useRouter();
+  const deleteProjectMutation = api.project.deleteProject.useMutation();
+
+  async function handleDeleteProject() {
+    try {
+      await deleteProjectMutation.mutateAsync({ id: projectId }).then(() => {
+        toast({ title: "Project deleted." });
+        router.push("/dashboard");
+      });
+    } catch (err: any) {
+      toast({ title: err.message, variant: "error" });
+    }
+  }
+
+  return (
+    <div className="relative mt-4 flex flex-col gap-4">
+      <Label className="ml-2">Delete Project</Label>
+      <Button
+        variant={"destructive"}
+        onClick={() => {
+          setShowDeleteProjectPopup(true);
+        }}
+        className="w-full rounded-full"
+      >
+        Delete Project
+      </Button>
+      <Popup
+        show={showDeleteProjectPopup}
+        className="mr-2 rounded-lg"
+        onClose={() => {
+          setShowDeleteProjectPopup(false);
+        }}
+      >
+        <div className="flex flex-col gap-4">
+          <h3>
+            Are you sure you wish to delete the project and all its related
+            tasks?
+          </h3>
+          <div className="flex gap-4 self-end">
+            <Button
+              onClick={() => {
+                setShowDeleteProjectPopup(false);
+              }}
+              variant={"secondary"}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleDeleteProject}
+              variant="destructive"
+              loading={deleteProjectMutation.isLoading}
+              className=""
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
+      </Popup>
+    </div>
+  );
+};
 
 const ProjectSettingsLoading = () => {
   return (
@@ -100,36 +165,41 @@ const ProjectSettingsForm = ({
     <>
       <div className="flex items-center justify-between gap-4">
         <h3 className="font-medium">Project Settings</h3>
-        {isEditing ? (
-          <div className="flex gap-2">
-            <Button
-              variant={"secondary"}
-              onClick={() => {
-                setProject(projectData);
-                setIsEditing(false);
-              }}
-              className="w-full rounded-full"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSaveProjectChanges}
-              className="w-full rounded-full"
-            >
-              Save
-            </Button>
-          </div>
-        ) : (
-          <Button
-            onClick={() => {
-              setIsEditing(true);
-            }}
-            disabled={isSaving}
-            className="w-full rounded-full"
-          >
-            Edit
-          </Button>
-        )}
+
+        <div className="flex gap-2">
+          {isEditing ? (
+            <>
+              <Button
+                variant={"secondary"}
+                onClick={() => {
+                  setProject(projectData);
+                  setIsEditing(false);
+                }}
+                className="w-full rounded-full"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSaveProjectChanges}
+                className="w-full rounded-full"
+              >
+                Save
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                onClick={() => {
+                  setIsEditing(true);
+                }}
+                disabled={isSaving}
+                className="w-full rounded-full"
+              >
+                Edit
+              </Button>
+            </>
+          )}
+        </div>
       </div>
       <div className="">
         <Label htmlFor="title" className="pl-2">
@@ -212,7 +282,7 @@ const ProjectSettingsForm = ({
           )}
         </div>
       </div>
-      <div className="flex-grow">
+      <div className="">
         <Label className="pl-2">Current Project Members</Label>
         {project.members.length === 0 ? (
           <div className="mt-4 text-sm text-gray-400">
@@ -271,6 +341,7 @@ const ProjectSettingsForm = ({
           </div>
         )}
       </div>
+      <DeleteProject projectId={projectData.id} />
     </>
   );
 };

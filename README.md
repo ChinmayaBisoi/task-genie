@@ -1,6 +1,3 @@
-# Create T3 App
-
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
 ## Live app link  
 [Check out the live version here.](https://task-genie.vercel.app/)
@@ -29,8 +26,9 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 ![Task List](https://github.com/ChinmayaBisoi/task-genie/blob/master/public/github/tasklist.png)
 ![Timeline](https://github.com/ChinmayaBisoi/task-genie/blob/master/public/github/timeline.png)
 
+# Create T3 App
 
-
+This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
 ## What's next? How do I make an app with this?
 

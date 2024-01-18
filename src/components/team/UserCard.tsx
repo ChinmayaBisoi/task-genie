@@ -1,7 +1,13 @@
 import React from "react";
 import Avatar from "../Avatar";
 
-const UserCard = ({ user }: { user: any }) => {
+const UserCard = ({
+  user,
+  avatarCss = "",
+}: {
+  user: any;
+  avatarCss?: string;
+}) => {
   return (
     <div className="flex items-center gap-4">
       {user && user.image && user.name && (
@@ -9,7 +15,7 @@ const UserCard = ({ user }: { user: any }) => {
           <Avatar
             img={user.image}
             name={user.name}
-            className="sm:h-12 sm:w-12"
+            className={`sm:h-12 sm:w-12 ${avatarCss}`}
           />
         </div>
       )}

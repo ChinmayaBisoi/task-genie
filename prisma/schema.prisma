@@ -55,6 +55,7 @@ model User {
     projects         Project[]
     ownProjects      Project[]       @relation("projectCreatedBy")
     tasks            Task[]
+    ownTasks         Task[]          @relation("mytasks")
 }
 
 model VerificationToken {
@@ -100,10 +101,15 @@ model Task {
     description String?  @default("")
     assignedTo  User[]
     isPriority  Boolean  @default(false)
-    status      String   @default("NOT_STARTED") // 
+    status      String   @default("Not Started") // can be "Not Started" or "In Progress" or "Review" or "Done" 
+    Project     Project  @relation(fields: [projectId], references: [id])
+    projectId   String
+    createdBy   User     @relation("mytasks", fields: [createdById], references: [id])
+    createdById String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 
-    Project   Project @relation(fields: [projectId], references: [id])
-    projectId String
+    @@unique([id])
 }
 
 // // Define the Tag model

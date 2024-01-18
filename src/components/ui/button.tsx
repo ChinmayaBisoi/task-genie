@@ -67,7 +67,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {...props}
         />
         <Loader
-          color={"blue"}
+          color={loaderColor}
           className={`${loading ? "absolute" : "hidden"}`}
         />
       </div>

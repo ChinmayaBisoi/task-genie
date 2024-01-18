@@ -51,7 +51,7 @@ const DeleteProject = ({ projectId }: { projectId: string }) => {
         }}
       >
         <div className="flex flex-col gap-4">
-          <h3>
+          <h3 className="pr-8">
             Are you sure you wish to delete the project and all its related
             tasks?
           </h3>
@@ -67,7 +67,9 @@ const DeleteProject = ({ projectId }: { projectId: string }) => {
             <Button
               onClick={handleDeleteProject}
               variant="destructive"
+              loaderColor="white"
               loading={deleteProjectMutation.isLoading}
+              disabled={deleteProjectMutation.isLoading}
               className=""
             >
               Delete

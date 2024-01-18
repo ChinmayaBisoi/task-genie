@@ -12,11 +12,11 @@ const ProjectPage = ({ user }: { user: Session["user"] }) => {
 
   return (
     <div className="p-4">
-      <div className="mx-auto my-4 md:max-w-3xl">
+      <div className="my-4 ">
         {isLoggedIn ? (
           <ProjectDetails isLoggedIn={isLoggedIn} />
         ) : (
-          <>
+          <div className="mx-auto md:max-w-3xl">
             <Image
               src="/team/colab.svg"
               alt="profile-page-image"
@@ -25,7 +25,7 @@ const ProjectPage = ({ user }: { user: Session["user"] }) => {
               className="mx-auto h-auto w-full max-w-sm"
             />
             <UserNotLoggedIn />
-          </>
+          </div>
         )}
       </div>
     </div>

@@ -11,13 +11,13 @@ import Avatar from "../Avatar";
 
 type ProjectsProps = RouterOutputs["project"]["getUserRelatedProjects"];
 
-const NUM_MEMBERS_TO_SHOW = 2;
+const NUM_MEMBERS_TO_SHOW = 3;
 
 const ProjectsLoading = () => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {new Array(4).fill(null).map((_, index) => {
-        return <Shimmer key={index} className="h-10 w-full" />;
+        return <Shimmer key={index} className="h-20 w-full" />;
       })}
     </div>
   );
@@ -34,14 +34,14 @@ const DashboardProjectList = ({ projects }: { projects: ProjectsProps }) => {
       </div>
     );
   return (
-    <div className="mt-4 flex flex-col gap-4">
+    <div className="mt-4 grid grid-cols-1 gap-4  md:grid-cols-2">
       {projects.map((project) => {
         return (
           <Link key={project.id} href={`/project/${project.id}`}>
             <div className="flex min-h-32 flex-col justify-between gap-2 rounded-md bg-slate-100 p-4 font-medium text-brand-dark hover:bg-slate-200">
               <div className="flex flex-col-reverse justify-between gap-4 sm:flex-row">
-                <div>
-                  <p className="">{project.title}</p>
+                <div className="overflow-x-hidden">
+                  <p className="text-lg">{project.title}</p>
                   <p className="text-xs">{project.description}</p>
                 </div>
                 <p className="hidden text-xs md:block">
@@ -59,7 +59,11 @@ const DashboardProjectList = ({ projects }: { projects: ProjectsProps }) => {
                         key={member.id}
                         className="rounded-full shadow shadow-brand-light"
                       >
-                        <Avatar name={member.name} img={member.image} />
+                        <Avatar
+                          name={member.name}
+                          img={member.image}
+                          className="h-6 w-6"
+                        />
                       </div>
                     );
                   })}

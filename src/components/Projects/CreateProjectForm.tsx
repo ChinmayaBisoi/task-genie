@@ -70,15 +70,16 @@ const CreateProjectForm = () => {
             onChange={handleChange}
           />
         </div>
-
-        <Button
-          onClick={handleCreateProject}
-          disabled={title.length === 0 || createProjectMutation.isLoading}
-          loading={createProjectMutation.isLoading}
-          className="ml-auto mt-4 px-8"
-        >
-          Create
-        </Button>
+        <div className="flex justify-end">
+          <Button
+            onClick={handleCreateProject}
+            disabled={title.length === 0 || createProjectMutation.isLoading}
+            loading={createProjectMutation.isLoading}
+            className="mt-4 px-8"
+          >
+            Create
+          </Button>
+        </div>
       </div>
     </>
   );

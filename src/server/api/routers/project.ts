@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 
-import { any, z } from "zod";
+import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -49,7 +49,12 @@ export const projectRouter = createTRPCRouter({
         },
         include: {
           members: true,
-          tasks: true,
+          tasks: {
+            include: {
+              createdBy: true,
+              assignedTo: true,
+            },
+          },
           createdBy: true,
         },
       });
@@ -75,7 +80,6 @@ export const projectRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const requestor = ctx.session.user;
       const { id, title, description, memberIds } = input;
-      console.log("Member Ids --- >", memberIds);
 
       const projectDetails = await ctx.db.project.update({
         where: {

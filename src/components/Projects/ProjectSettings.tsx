@@ -211,8 +211,8 @@ const ProjectSettingsForm = ({
           <Input
             id="title"
             readOnly={!isEditing}
-            disabled={!isEditing}
             value={project.title}
+            className={`${isEditing ? "" : "border-0"}`}
             onChange={(e) => {
               setProject((prev) => {
                 return { ...prev, title: e.target.value };
@@ -229,7 +229,8 @@ const ProjectSettingsForm = ({
           <Input
             id="description"
             readOnly={!isEditing}
-            disabled={!isEditing}
+            placeholder="Add a description"
+            className={`${isEditing ? "" : "border-0"}`}
             value={project.description || ""}
             onChange={(e) => {
               setProject((prev) => {
@@ -245,7 +246,7 @@ const ProjectSettingsForm = ({
           placeholder="Add a member to the project..."
           id="members"
           readOnly={!isEditing}
-          disabled={!isEditing}
+          className={`${isEditing ? "" : "border-0"}`}
           value={addMemberInput}
           onChange={(e) => {
             setAddMemberInput(e.target.value);

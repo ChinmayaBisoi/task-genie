@@ -13,7 +13,9 @@
 - NEXTAUTH_URL should be for local development "http://localhost:3000" or your domain name in production
 - [Having trouble setting up GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET ?](https://www.youtube.com/watch?v=XmmMQfpQh40&t=446s)
 - Now run the following command to start the development server, your app should be running in localhost:3000
-``` npm run dev ```
+  ```
+      npm run dev
+  ```
 - Friendly note - Always remember to run ``npm run db:push``` after making any changes in the prisma schema, incase of error try starting the development server again
 
 

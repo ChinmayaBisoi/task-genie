@@ -12,7 +12,14 @@ export default function Home() {
       <Section1 />
       <HowItWorks />
       <TrustedBy />
-      <div className="my-16 grid grid-cols-12 px-4 md:my-16 md:px-0">
+      <div className="grid grid-cols-12 bg-gradient-to-r from-brand-dark via-indigo-500 to-brand-light/30 px-4 py-16 md:px-0 md:py-16">
+        <div className="col-span-full flex flex-col items-center gap-4 md:col-span-8 md:col-start-3">
+          <h3 className="text-center text-4xl text-brand-dark text-white">
+            Get started with TaskGenie today
+          </h3>
+        </div>
+      </div>
+      <div className="my-2 grid grid-cols-12 px-4 md:px-0">
         <div className="col-span-full flex flex-col items-center gap-4 md:col-span-8 md:col-start-3">
           <div className="flex justify-between gap-4">
             <div>© TaskGenie 2024</div>

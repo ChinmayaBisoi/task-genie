@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { signIn, useSession } from "next-auth/react";
 
-async function handleGoogleLogin() {
+export async function handleGoogleLogin() {
   try {
     await signIn("google", {
       callbackUrl: `${window.location.origin}/dashboard`,
@@ -12,7 +12,7 @@ async function handleGoogleLogin() {
   }
 }
 
-const Login = () => {
+const Login = ({ title }: { title?: string }) => {
   const { status } = useSession();
   const loading = status === "loading";
   const authenticated = status === "authenticated";
@@ -23,7 +23,7 @@ const Login = () => {
       onClick={handleGoogleLogin}
       className={`h-full rounded-none bg-brand-light px-6 text-lg font-semibold hover:bg-brand-dark`}
     >
-      Login
+      {title || "Login"}
     </Button>
   );
 };

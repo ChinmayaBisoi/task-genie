@@ -100,7 +100,13 @@ const AssignTask = ({
         {selectedMemberIds.map((k) => {
           const user = project.members.find((m) => m.id === k);
           if (!user?.name || !user?.image) return;
-          return <Avatar name={user.name} img={user.image} />;
+          return (
+            <Avatar
+              key={user.name + user.image}
+              name={user.name}
+              img={user.image}
+            />
+          );
         })}
       </div>
     </div>
@@ -250,7 +256,12 @@ const TaskForm = ({
         <Button onClick={close} variant={"secondary"} className="w-32">
           Cancel
         </Button>
-        <Button onClick={handleSaveTask} className="w-32">
+        <Button
+          loading={saveTaskMutation.isLoading}
+          disabled={saveTaskMutation.isLoading}
+          onClick={handleSaveTask}
+          className="w-32"
+        >
           Save
         </Button>
       </div>

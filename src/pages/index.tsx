@@ -1,42 +1,29 @@
-import Link from "next/link";
 import type { ReactElement } from "react";
 import Layout from "~/components/layout/Layout";
+import TrustedBy from "./landing/TrustedBy";
+import Section1 from "./landing/Seciton1";
+import HowItWorks from "./landing/HowItWorks";
+import Twitter from "~/components/icons/Twitter";
+import Github from "~/components/icons/Github";
 
 export default function Home() {
   return (
-    <>
-      <div className="min-h-screen">
-        <div className="container flex h-[2000px] flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-          </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">First Steps →</h3>
-              <div className="text-lg">
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Documentation →</h3>
-              <div className="text-lg">
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
+    <div>
+      <Section1 />
+      <HowItWorks />
+      <TrustedBy />
+      <div className="my-16 grid grid-cols-12 px-4 md:my-16 md:px-0">
+        <div className="col-span-full flex flex-col items-center gap-4 md:col-span-8 md:col-start-3">
+          <div className="flex justify-between gap-4">
+            <div>© TaskGenie 2024</div>
+            <div className="flex gap-4">
+              <Github />
+              <Twitter />
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

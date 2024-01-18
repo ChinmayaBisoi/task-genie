@@ -46,6 +46,7 @@ export const projectRouter = createTRPCRouter({
       const projectDetails = await ctx.db.project.findUnique({
         where: {
           id: projectId,
+          isDeleted: false,
         },
         include: {
           members: true,
@@ -116,11 +117,12 @@ export const projectRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { id: projectId } = input;
 
-      //  TODO : make sure related tasks are also deleted
-
-      const projectDetails = await ctx.db.project.delete({
+      const projectDetails = await ctx.db.project.update({
         where: {
           id: projectId,
+        },
+        data: {
+          isDeleted: true,
         },
       });
 
@@ -133,6 +135,7 @@ export const projectRouter = createTRPCRouter({
 
     const projectDetails = await ctx.db.project.findMany({
       where: {
+        isDeleted: false,
         members: {
           some: {
             id: requestor.id,
@@ -141,7 +144,11 @@ export const projectRouter = createTRPCRouter({
       },
       include: {
         members: true,
-        tasks: true,
+        tasks: {
+          include: {
+            assignedTo: true,
+          },
+        },
         createdBy: true,
       },
       orderBy: {

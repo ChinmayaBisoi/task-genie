@@ -87,6 +87,7 @@ model Project {
     createdById String
     members     User[]
     tasks       Task[]
+    isDeleted   Boolean? @default(false)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 

@@ -3,13 +3,12 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { RouterOutputs, api } from "~/utils/api";
 import Popup from "../common/Popup";
+import Shimmer from "../common/Shimmer";
+import Task from "../tasks/Task";
 import TaskForm from "../tasks/TaskForm";
 import { Button } from "../ui/button";
 import ProjectNotFound from "./ProjectNotFound";
-import { format } from "date-fns";
-import { GripVertical } from "lucide-react";
-import Task from "../tasks/Task";
-import Shimmer from "../common/Shimmer";
+import { filter } from "d3";
 
 type ProjectProps = RouterOutputs["project"]["getProjectDetails"];
 
@@ -68,6 +67,37 @@ const ProjectDetails = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     await refetch();
   }
 
+  const [filters, setFilters] = useState({
+    isPriority: false,
+    status: null,
+  });
+
+  const filteredTasks: any = projectData?.tasks.filter((task) => {
+    if (filters.status && filters.status !== task.status) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const handleToggleStatus = (status: any) => {
+    if (filters.status === status) {
+      status = null;
+    }
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      status: status,
+    }));
+  };
+
+  const handleClearAllFilters = () => {
+    setFilters({
+      isPriority: false,
+      status: null,
+    });
+  };
+
   const loading = isLoading || isRefetching;
 
   if (loading)
@@ -108,8 +138,38 @@ const ProjectDetails = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           <div className="flex justify-end">
             <AddTask project={projectData} refetch={refetchProjectDetails} />
           </div>
+          <div className="mb-4 flex flex-wrap gap-4">
+            <Button
+              variant={
+                filters.status === "Not Started" ? "default" : "secondary"
+              }
+              onClick={() => {
+                handleToggleStatus("Not Started");
+              }}
+            >
+              Not Started
+            </Button>
+            <Button
+              variant={
+                filters.status === "In Progress" ? "default" : "secondary"
+              }
+              onClick={() => {
+                handleToggleStatus("In Progress");
+              }}
+            >
+              In Progress
+            </Button>
+            <Button
+              variant={filters.status === "Done" ? "default" : "secondary"}
+              onClick={() => {
+                handleToggleStatus("Done");
+              }}
+            >
+              Done
+            </Button>
+          </div>
           <div className="mt-4">
-            {projectData.tasks.length === 0 ? (
+            {filteredTasks.length === 0 ? (
               <div className="mt-20 text-center text-brand-dark">
                 <div className="font-medium">No task available.</div>
                 <div className="text-sm text-gray-500">
@@ -117,17 +177,19 @@ const ProjectDetails = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {projectData.tasks.map((task) => {
-                  return (
-                    <Task
-                      task={task}
-                      key={task.id}
-                      project={projectData}
-                      refetch={refetchProjectDetails}
-                    />
-                  );
-                })}
+              <div>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {projectData.tasks.map((task) => {
+                    return (
+                      <Task
+                        task={task}
+                        key={task.id}
+                        project={projectData}
+                        refetch={refetchProjectDetails}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>
